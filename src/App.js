@@ -8,7 +8,6 @@ import { GlobalStyles } from "./styles/globalStyles";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 function App() {
-  const name = "abc";
   const theme = createTheme({
     components: {
       MuiButton: {
