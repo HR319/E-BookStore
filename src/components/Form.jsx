@@ -2,6 +2,9 @@ import { TextField, Typography, Button, FormHelperText } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import authService from "../services/authService";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Form1 = () => {
   // const [Username, setUsername] = useState("");
@@ -11,11 +14,19 @@ const Form1 = () => {
     Password: "",
   });
 
+  const [userData, setUserData] = useState();
+
+  const getData = async () => {
+    await axios
+      .get(`https://book-e-sell-node-api.vercel.app/api/user/byId?id=${625}`)
+      .then((res) => setUserData(res.data.result));
+  };
+
   useEffect(() => {
-    //if(userdetails.username){
-    console.log("useffect called");
-    //}
+    getData();
   }, []);
+
+  console.log("1111", userData);
 
   const validationSchema = Yup.object().shape({
     Username: Yup.string().required("Username should not be empty."),
@@ -26,10 +37,39 @@ const Form1 = () => {
     Password: Yup.string().min(8).required("Password should not be empty."),
   });
 
-  const handleSubmit = (values) => {
-    console.log("Username: ", UserDetails.Username);
-    console.log("Password: ", UserDetails.Password);
+  const handleSubmit = async (values) => {
+    // console.log("Username: ", UserDetails.Username);
+    // console.log("Password: ", UserDetails.Password);
+
+    const payload = {
+      firstname: values.Username,
+      lastname: "test",
+      email: values.email,
+      roleId: 2,
+      password: values.Password,
+    };
+
+    // await authService
+    //   .Register(payload)
+    //   .then((response) => {
+    //     if (response && response.code === 200) {
+    //       toast("Data submitted successfully!");
+    //     }
+    //   })
+    //   .catch(() => {});
+
+    await axios
+      .post("https://book-e-sell-node-api.vercel.app/api-user", payload)
+      .then((response) => {
+        if (response && response.code === 200) {
+          toast("Data submitted successfully!");
+        }
+      })
+      .catch((error) => {
+        toast("unable to submit the data");
+      });
   };
+
   return (
     <Formik
       initialValues={{ Username: "", age: "", email: "", Password: "" }}
@@ -44,7 +84,7 @@ const Form1 = () => {
         handleBlur,
         handleSubmit,
       }) => {
-        console.log("Error :", errors);
+        // console.log("Error :", errors);
         return (
           <Form>
             <div className="form-demo">
