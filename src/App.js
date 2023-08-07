@@ -1,4 +1,7 @@
 import "./App.css";
+import React from "react";
+// import { theme } from "./utils/theme";
+import "react-toastify/dist/ReactToastify.css";
 import Booklist from "./components/Booklist";
 import HomePage from "./components/HomePage";
 import Form from "./components/Form";
@@ -6,6 +9,7 @@ import PageNotFound from "./components/PageNotFound";
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import { GlobalStyles } from "./styles/globalStyles";
 import { createTheme, ThemeProvider } from "@mui/material";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const theme = createTheme({
@@ -23,6 +27,7 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
+          <ToastContainer />
           <div style={{ ...GlobalStyles.navbar }}>
             <NavLink to="/">Home</NavLink>
             <NavLink to="/books">Booklist</NavLink>
