@@ -1,3 +1,5 @@
+
+
 export const GlobalStyles = {
   navbar: {
     padding: 10,
